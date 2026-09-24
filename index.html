@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUROMU Responsive Terminal</title>
+    <!-- Google Fonts: インパクトのあるDela Gothic Oneと可読性の高いNoto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 2026年トレンドのデジタルダークモード配色 */
+            --bg-color: #0F172A;        /* 深いネイビーブラック [3] */
+            --accent-purple: #A28DA5;   /* くろむさんのモーブパープル [4] */
+            --line-color: rgba(162, 141, 165, 0.15);
+            --text-main: #94A3B8;       /* 読みやすいグレー [3] */
+            --glow: 0 0 12px rgba(162, 141, 165, 0.6);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* 背景に電子的なグリッドラインを配置 [5, 6] */
+            background-image: 
+                linear-gradient(var(--line-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* 画面全体を覆うメインコンテナ（ボックスを廃止しフル画面化） */
+        .terminal-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 5vw; /* 画面幅に応じた動的余白 [7] */
+            position: relative;
+        }
+
+        /* ヘッダー：タイトルが切れないようにclampで流体フォント化 [1] */
+        header {
+            border-left: 5px solid var(--accent-purple);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: var(--glow);
+        }
+
+        h1 {
+            font-family: 'Dela Gothic One', cursive;
+            /* 画面幅に応じて最小1.5rem〜最大4remの間で自動調整。切れるのを防ぐ */
+            font-size: clamp(1.5rem, 8vw, 4rem); 
+            margin: 0;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .system-status {
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: var(--accent-purple);
+            letter-spacing: 0.2em;
+            margin-top: 0.5rem;
+        }
+
+        /* コンテンツエリア：ノート風の罫線を画面いっぱいに広げる [8, 9] */
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            /* 行の高さと背景サイズを同期させ、改行しても線がずれないように実装 [10, 11] */
+            background-image: linear-gradient(180deg, transparent 97%, var(--line-color) 100%);
+            background-size: 100% 2.4em;
+            line-height: 2.4;
+            padding-bottom: 40px;
+        }
+
+        /* スクロールバーのカスタマイズ（電子系スタイル） */
+        .content-body::-webkit-scrollbar { width: 4px; }
+        .content-body::-webkit-scrollbar-thumb { 
+            background: var(--accent-purple); 
+            box-shadow: var(--glow);
+        }
+
+        /* ネオンマーカー [12, 13] */
+        .highlight {
+            background: linear-gradient(transparent 70%, rgba(162, 141, 165, 0.4) 70%);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* フッター：画面右下に固定的な装飾 */
+        footer {
+            margin-top: auto;
+            text-align: right;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* モバイル対応：さらに小さな画面での微調整 */
+        @media (max-width: 480px) {
+            .terminal-wrapper { padding: 8vw 5vw; }
+            h1 { letter-spacing: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="terminal-wrapper">
+        <header>
+            <h1>KUROMU_SYSTEM</h1>
+            <div class="system-status">>> STATUS: ONLINE // MODE: FULLSCREEN_HUD</div>
+        </header>
+
+        <section class="content-body">
+            <p>
+                <span class="highlight">「ボックス」という概念をハックし、画面全体をターミナル化しました。</span><br>
+                従来のカード型デザインを廃止し、ブラウザの全領域をデータ空間として活用しています。<br>
+                <br>
+                [RESPONSIVE ENGINE]<br>
+                タイトルの「KUROMU_SYSTEM」には流体タイポグラフィを採用。<br>
+                スマホで見た際も文字が切れることなく、画面幅に合わせて自動で縮小されます。<br>
+                <br>
+                [DESIGN ARCHITECTURE]<br>
+                - Background: 電子回路を模した30pxグリッド [5]<br>
+                - Accent: 彩度を抑えた大人のモーブパープル [4, 14]<br>
+                - Layout: セマンティックなmain/section構造 [15, 16]<br>
+                <br>
+                ノート風の罫線は、ここでは単なるメモの線ではなく、<br>
+                デジタル情報の読み取りを補助するスキャンラインとして機能します。<br>
+                文章がどれだけ増えても、この電子の海はあなたの思考を同期し続けます。<br>
+                <br>
+                夜乃くろむさんのように、スマートで、どこまでも自由な電脳体験を。
+            </p>
+        </section>
+
+        <footer>
+            LOG_DATA: v4.2.0-FINAL // SESSION_ID: 2026_0627_TERM
+        </footer>
+    </main>
+
+</body>
+</html>
